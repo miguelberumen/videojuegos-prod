@@ -1,0 +1,50 @@
+{% extends "maestra.html" %}
+{% block contenido %}
+<div class="columns is-centered">
+    <div class="column is-one-third">
+        <h2 class="title is-3 has-text-centered">Iniciar Sesión</h2>
+        
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            {% for message in messages %}
+              <div class="notification is-danger">
+                {{ message }}
+              </div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+
+        <form method="POST" action="{{ url_for('auth.login') }}">
+            {{ form.hidden_tag() }}
+            
+            <div class="field">
+                <label class="label">{{ form.username.label }}</label>
+                <div class="control">
+                    {{ form.username(class="input", placeholder="Tu nombre de usuario") }}
+                </div>
+            </div>
+
+            <div class="field">
+                <label class="label">{{ form.password.label }}</label>
+                <div class="control">
+                    {{ form.password(class="input", placeholder="Tu contraseña") }}
+                </div>
+            </div>
+
+            <div class="field">
+                <label class="checkbox">
+                    {{ form.remember_me() }} {{ form.remember_me.label.text }}
+                </label>
+            </div>
+
+            <div class="field mt-4">
+                {{ form.submit(class="button is-info is-fullwidth") }}
+            </div>
+        </form>
+        
+        <p class="has-text-centered mt-3">
+            ¿No tienes cuenta? <a href="{{ url_for('auth.register') }}">Regístrate aquí</a>
+        </p>
+    </div>
+</div>
+{% endblock %}

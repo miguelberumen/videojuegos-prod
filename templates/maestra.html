@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juegos - Parzibyte</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <style>
+        .logo-parzibyte {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #209cee !important;
+            line-height: 1;
+        }
+        .logo-parzibyte span {
+            color: #23d160 !important;
+        }
+        .subtitulo-parzibyte {
+            font-size: 0.85rem;
+            color: #ff3860 !important;
+            font-style: italic;
+            display: block;
+            margin-top: -2px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar is-warning" role="navigation" aria-label="main navigation">
+        <div class="container">
+            <div class="navbar-brand">
+                <a class="navbar-item" href="{{ url_for('juegos') }}" style="flex-direction: column; align-items: flex-start; justify-content: center;">
+                    <span class="logo-parzibyte">Parzibyte<span>.me</span></span>
+                    <small class="subtitulo-parzibyte">El blog de parzibyte</small>
+                </a>
+                <a class="navbar-item" href="{{ url_for('juegos') }}" style="margin-left: 15px;">Juegos</a>
+            </div>
+
+            <div class="navbar-menu">
+                <div class="navbar-end">
+                    <div class="navbar-item">
+                        {% if current_user.is_authenticated %}
+                            <span class="mr-3">Hola, <strong>{{ current_user.username }}</strong></span>
+                            <a class="button is-danger is-light mr-2" href="{{ url_for('auth.logout') }}">
+                                <strong>Cerrar sesión</strong>
+                            </a>
+                        {% else %}
+                            <a class="button is-info mr-2" href="{{ url_for('auth.login') }}">
+                                <strong>Ingresar</strong>
+                            </a>
+                            <a class="button is-light mr-2" href="{{ url_for('auth.register') }}">
+                                <strong>Registrarse</strong>
+                            </a>
+                        {% endif %}
+                        <a class="button is-primary" href="https://parzibyte.me/blog/soporte/" target="_blank">
+                            <strong>Ayuda y soporte</strong>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section class="section">
+        <div class="container">
+            {% block contenido %}{% endblock %}
+        </div>
+    </section>
+</body>
+</html>

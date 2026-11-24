@@ -1,0 +1,34 @@
+test_delete_juego (test_api.APITestCase.test_delete_juego) ... C:\Users\migue\OneDrive\Escritorio\Actividades 7 semestre\Bases de datos\U3 - A3 Pruebas Unitarias\api\routes.py:61: LegacyAPIWarning: The Query.get() method is considered legacy as of the 1.x series of SQLAlchemy and becomes a legacy construct in 2.0. The method is now available as Session.get() (deprecated since: 2.0) (Background on SQLAlchemy 2.0 at: https://sqlalche.me/e/b8d9)
+  juego = Juego.query.get(id)
+ok
+test_delete_juego_no_encontrado (test_api.APITestCase.test_delete_juego_no_encontrado) ... ok
+test_get_juego_no_encontrado (test_api.APITestCase.test_get_juego_no_encontrado) ... C:\Users\migue\OneDrive\Escritorio\Actividades 7 semestre\Bases de datos\U3 - A3 Pruebas Unitarias\api\routes.py:35: LegacyAPIWarning: The Query.get() method is considered legacy as of the 1.x series of SQLAlchemy and becomes a legacy construct in 2.0. The method is now available as Session.get() (deprecated since: 2.0) (Background on SQLAlchemy 2.0 at: https://sqlalche.me/e/b8d9)
+  juego = Juego.query.get(id)
+ok
+test_get_juego_por_id (test_api.APITestCase.test_get_juego_por_id) ... ok
+test_get_juegos (test_api.APITestCase.test_get_juegos) ... ok
+test_post_juego (test_api.APITestCase.test_post_juego) ... ok
+test_post_juego_datos_vacios (test_api.APITestCase.test_post_juego_datos_vacios) ... ok
+test_put_juego (test_api.APITestCase.test_put_juego) ... C:\Users\migue\OneDrive\Escritorio\Actividades 7 semestre\Bases de datos\U3 - A3 Pruebas Unitarias\api\routes.py:42: LegacyAPIWarning: The Query.get() method is considered legacy as of the 1.x series of SQLAlchemy and becomes a legacy construct in 2.0. The method is now available as Session.get() (deprecated since: 2.0) (Background on SQLAlchemy 2.0 at: https://sqlalche.me/e/b8d9)
+  juego = Juego.query.get(id)
+ok
+test_juego_creation (test_models.ModelTestCase.test_juego_creation) ... ok
+test_juego_datos_y_actualizacion (test_models.ModelTestCase.test_juego_datos_y_actualizacion) ... ok
+test_user_creation (test_models.ModelTestCase.test_user_creation) ... ok
+test_user_password_hashing (test_models.ModelTestCase.test_user_password_hashing) ... ok
+test_user_password_solo_escritura (test_models.ModelTestCase.test_user_password_solo_escritura) ... ok
+test_agregar_juego_autenticado (test_routes.RoutesTestCase.test_agregar_juego_autenticado) ... ok
+test_agregar_juego_requires_login (test_routes.RoutesTestCase.test_agregar_juego_requires_login) ... ok
+test_index_requires_login (test_routes.RoutesTestCase.test_index_requires_login) ... ok
+test_juegos_requires_login (test_routes.RoutesTestCase.test_juegos_requires_login) ... ok
+test_login_credenciales_incorrectas (test_routes.RoutesTestCase.test_login_credenciales_incorrectas) ... ok
+test_login_page_access (test_routes.RoutesTestCase.test_login_page_access) ... ok
+test_login_y_acceso_rutas_protegidas (test_routes.RoutesTestCase.test_login_y_acceso_rutas_protegidas) ... ok
+test_logout (test_routes.RoutesTestCase.test_logout) ... ok
+test_register_page_access (test_routes.RoutesTestCase.test_register_page_access) ... ok
+test_register_user (test_routes.RoutesTestCase.test_register_user) ... ok
+
+----------------------------------------------------------------------
+Ran 23 tests in 6.977s
+
+OK
