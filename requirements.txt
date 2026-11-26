@@ -4,4 +4,5 @@ Flask-Login
 Flask-WTF
 Flask-RESTful
 PyMySQL
-pytest-flask
+cryptography
+gunicorn

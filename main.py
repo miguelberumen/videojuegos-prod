@@ -1,3 +1,5 @@
+import os
+import time
 from flask import Flask, render_template, request, redirect, url_for
 from flask_login import LoginManager, login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -11,7 +13,7 @@ from api.routes import JuegoList, JuegoResource
 def create_app(config_name='default'):
     app = Flask(__name__)
 
-    app.config['SECRET_KEY'] = 'clave_secreta_capitulo_8_flask'
+    app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'clave_desarrollo_local')
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
     if config_name == 'testing':
@@ -19,7 +21,7 @@ def create_app(config_name='default'):
         app.config['WTF_CSRF_ENABLED'] = False
         app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///:memory:'
     else:
-        app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:admin123@localhost/juegos'
+        app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///videojuegos.db')
 
     db.init_app(app)
 
@@ -77,16 +79,22 @@ def create_app(config_name='default'):
         controllers.eliminar_juego(id)
         return redirect(url_for('juegos'))
 
+    with app.app_context():
+        for _ in range(10):
+            try:
+                db.create_all()
+                if not User.query.filter_by(username='admin').first():
+                    admin_user = User(username='admin', password='admin123')
+                    db.session.add(admin_user)
+                    db.session.commit()
+                break
+            except Exception:
+                time.sleep(3)
+
     return app
 
 
-if __name__ == '__main__':
-    app = create_app()
-    with app.app_context():
-        db.create_all()
+app = create_app()
 
-        if not User.query.filter_by(username='admin').first():
-            admin_user = User(username='admin', password='admin123')
-            db.session.add(admin_user)
-            db.session.commit()
+if __name__ == '__main__':
     app.run(debug=True)

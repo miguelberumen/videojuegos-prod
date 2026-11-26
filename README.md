@@ -1,47 +1,58 @@
-# U3 - A3: Pruebas Unitarias en Mini-Proyecto Flask
+# U4 - A4: Despliegue de Producción del Mini-Sistema de Videojuegos
 
-En esta actividad realicé pruebas unitarias utilizando el módulo `unittest` de Python para comprobar que funcionaran correctamente los modelos, las rutas y la API de mi aplicación de videojuegos desarrollada con Flask.
+En esta actividad realicé el despliegue en producción de mi aplicación web de videojuegos desarrollada con Flask, utilizando Docker, Docker Compose, Gunicorn y MySQL. El sistema conserva las funcionalidades de registro de usuarios, inicio de sesión, manejo de sesiones protegidas y administración (listado, registro y edición) de videojuegos.
 
-También utilicé `setUp()` y `tearDown()` para preparar y limpiar el entorno antes y después de cada prueba, evitando que los resultados de una prueba afectaran a las demás.
+## A. Pasos para levantar la aplicación
 
-## Cobertura de las pruebas
+1. Clonar el repositorio y entrar a la carpeta del proyecto:
+   ```bash
+   git clone [https://github.com/miguelberumen/videojuegos-prod.git](https://github.com/miguelberumen/videojuegos-prod.git)
+   cd videojuegos-prod
+   ```
 
-Las pruebas se encuentran dentro de la carpeta `tests/`. En total realicé **23 pruebas**, que se pueden ejecutar desde la carpeta principal del proyecto con el siguiente comando:
+2. Crear un archivo `.env` en la raíz del proyecto con las variables de entorno necesarias para la base de datos y la aplicación.
 
-```bash
-python -m unittest discover -v tests
-```
+3. Construir la imagen y levantar los contenedores en segundo plano:
+   ```bash
+   docker-compose up --build -d
+   ```
 
-- **Modelos (`test_models.py`) – 5 pruebas:**
-  - Comprobé la creación y consulta de videojuegos.
-  - Probé la actualización del nombre y precio.
-  - Verifiqué el registro de usuarios.
-  - Comprobé que las contraseñas se guardaran correctamente y pudieran validarse.
-  - Verifiqué que no se pudiera acceder directamente a la contraseña.
+4. Esperar unos segundos a que MySQL termine de inicializarse y abrir la aplicación en el navegador en:
+   `http://localhost`
 
-- **Rutas (`test_routes.py`) – 10 pruebas:**
-  - Comprobé el acceso al inicio de sesión y al registro.
-  - Verifiqué que las páginas protegidas solicitaran iniciar sesión.
-  - Probé el registro y acceso de usuarios.
-  - Comprobé el comportamiento cuando los datos de acceso son incorrectos.
-  - Probé el registro de videojuegos y el cierre de sesión.
+## B. Variables de entorno
 
-- **API (`test_api.py`) – 8 pruebas:**
-  - Comprobé la consulta de todos los videojuegos y de uno en particular.
-  - Probé el registro de nuevos videojuegos.
-  - Verifiqué la actualización y eliminación de registros.
-  - Comprobé las respuestas cuando se envían datos incorrectos o se busca un videojuego que no existe.
+Para evitar colocar contraseñas o claves directamente en el código fuente, la aplicación lee su configuración desde variables de entorno mediante `os.environ` y un archivo local `.env` (ignorado en Git):
 
-## Retos encontrados y soluciones
+- **`DATABASE_URL`**: Define la cadena de conexión entre Flask y el contenedor de MySQL usando PyMySQL (por ejemplo: `mysql+pymysql://usuario:contraseña@db/videojuegos`).
+- **`SECRET_KEY`**: Clave secreta que utiliza Flask para firmar las sesiones de usuario y proteger los formularios con Flask-Login y Flask-WTF.
+- **`MYSQL_ROOT_PASSWORD`**, **`MYSQL_DATABASE`**, **`MYSQL_USER`** y **`MYSQL_PASSWORD`**: Variables empleadas por el servicio `db` de Docker Compose para crear automáticamente la base de datos y el usuario de MySQL al iniciar el contenedor.
 
-Durante la realización de las pruebas encontré algunos problemas que tuve que solucionar:
+## C. Comandos Docker y Docker Compose utilizados
 
-1. **Error al ejecutar la aplicación:** Al principio apareció un error porque no estaba activo el entorno virtual. Lo solucioné activándolo e instalando las dependencias necesarias.
+- **Construir la imagen y levantar los servicios en segundo plano:**
+  ```bash
+  docker-compose up --build -d
+  ```
 
-2. **Preparación de la aplicación para las pruebas:** Tuve que organizar `main.py` para poder iniciar la aplicación en modo de pruebas sin afectar su funcionamiento normal.
+- **Verificar que los contenedores (`web` y `db`) estén activos y en ejecución:**
+  ```bash
+  docker-compose ps
+  ```
 
-3. **Base de datos para las pruebas:** Creé una base de datos separada llamada `juegos_test` para evitar modificar o eliminar los datos de mi base de datos principal.
+## D. Capturas de pantalla
 
-4. **Problema con el inicio de sesión:** Al realizar las pruebas del formulario apareció un problema con la validación CSRF. Lo solucioné desactivando esta validación únicamente en el entorno de pruebas.
+### 1. Contenedores activos en Docker Compose
+![Contenedores activos](capturas/1.png)
 
-5. **Guardado de resultados:** Tuve un problema al guardar los resultados de las pruebas en `results.txt`. Lo solucioné utilizando el comando `2>&1` para guardar también los mensajes de error de la terminal.
+### 2. Inicio de sesión y registro de usuarios en http://localhost
+![Login de usuario](capturas/2.png)
+
+### 3. Registro de un nuevo videojuego
+![Agregar videojuego](capturas/3.png)
+
+### 4. Edición de un videojuego existente
+![Editar videojuego](capturas/4.png)
+
+### 5. Listado de videojuegos con sesión activa
+![Listado de videojuegos](capturas/5.png)
